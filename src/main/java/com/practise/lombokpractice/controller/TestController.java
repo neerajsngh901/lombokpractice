@@ -1,12 +1,10 @@
 package com.practise.lombokpractice.controller;
 
 import com.practise.lombokpractice.model.User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/vi/")
+@RequestMapping("/api/vi")
 public class TestController {
     //GET,PUT,DELETE,POST
     //get-data fetch - 27-01-2023
@@ -15,6 +13,7 @@ public class TestController {
     //delete-data delete
     //post-data insert
     //localhost:8080/api/vi/neeraj
+    // Request Mapping - Global url for all method in class which is added before the method url.
     @GetMapping("/neeraj")
     public User get(){
         User user= new User();
@@ -30,6 +29,44 @@ public class TestController {
         user.setAge(20);
         return user.toString();
     }
+    //PathParam
+    @GetMapping("/ex/{id}/data")
+        public String getData(@PathVariable(value = "id") int id){
+        return String.valueOf(id);
+    }
+    //Path Param- For Searching particular Data
+    @GetMapping("/ex1/{account_no}/data")
+    public String getData1(@PathVariable int account_no){
+        return String.valueOf(account_no);
+    }
 
+    //QueryPAram- Its used to sort out data in particular Data
+
+    //Workflow - i want particular case id full details- PathParam
+    //Workflow - i want particular details from a case id -Query Param e.g- Dispatched.
+//http://localhost:8080/api/vi/ex2/13/data?name=Divya&id=1
+    @GetMapping("/ex2/{age}/data")
+    public User getUserdetails(@PathVariable int age, @RequestParam String name,@RequestParam int
+                               id){
+        User user=new User(name,age,id);
+        return user;
+    }
+    //Post
+    @PostMapping("/add")
+    public User addUser(@RequestBody User user){
+        return user;
+
+    }
+
+    //Put
+    @PutMapping("/update")
+    public User update(@RequestBody User user){
+        return user;
+
+    }
+    @DeleteMapping("/Delete/{id}")
+    public String deleteData(@PathVariable int id){
+        return "Your Id:"+id+" Deleted Sucessfully";
+    }
 
 }
